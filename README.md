@@ -26,7 +26,7 @@ Table of Contents
   - [Acknowledgement](#acknowledgement)
 
 ## Overview
-- This is the PyTorch implementation for AAAI 2021 paper "[Deep Feature Space Trojan Attack of Neural Networks by Controlled Detoxification](https://ojs.aaai.org/index.php/AAAI/article/view/16201/16008)".
+- This is the PyTorch implementation for AAAI 2021 paper "[Deep Feature Space Trojan Attack of Neural Networks by Controlled Detoxification]([https://ojs.aaai.org/index.php/AAAI/article/view/16201/16008](https://ojs.aaai.org/index.php/AAAI/article/view/16201))".
 - The original TensorFlow version is available in the "**tensorflow**" branch of this repository.
 - [[arXiv](https://arxiv.org/abs/2012.11212)\] | \[[video](https://slideslive.com/38948448/deep-feature-space-trojan-attack-of-neural-networks-by-controlled-detoxification)\] | \[[poster](https://www.cs.purdue.edu/homes/cheng535/static/slides/DFST_poster.pdf)\]
 
