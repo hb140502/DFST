@@ -50,15 +50,15 @@ def train(config, save_folder, logger, DEVICE):
     train_set = get_dataset(config['dataset'], train=True)
     test_set  = get_dataset(config['dataset'], train=False)
 
-    train_loader = DataLoader(train_set, batch_size=config['batch_size'], shuffle=True, num_workers=4)
-    test_loader = DataLoader(test_set, batch_size=config['batch_size'], shuffle=False, num_workers=4)
+    train_loader = DataLoader(train_set, batch_size=config['batch_size'], shuffle=True, num_workers=2)
+    test_loader = DataLoader(test_set, batch_size=config['batch_size'], shuffle=False, num_workers=2)
 
     preprocess, _ = get_norm(config['dataset'])
 
     criterion = torch.nn.CrossEntropyLoss()
 
     optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4)
-    scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=50, gamma=0.1)
+    scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[100, 150], gamma=0.1)
 
     time_start = time.time()
     for epoch in range(config['epochs']):
@@ -105,7 +105,7 @@ def test(config, save_folder, DEVICE):
     preprocess, _ = get_norm(config['dataset'])
 
     test_set = get_dataset(config['dataset'], train=False)
-    test_loader = DataLoader(dataset=test_set, num_workers=4, batch_size=config['batch_size'])
+    test_loader = DataLoader(dataset=test_set, num_workers=2, batch_size=config['batch_size'])
 
     acc = eval_acc(model, test_loader, preprocess, DEVICE)
 
@@ -152,7 +152,7 @@ def poison(config, save_folder, logger, DEVICE):
     # Optimizer
     criterion = torch.nn.CrossEntropyLoss()
     optimizer = torch.optim.SGD(model.parameters(), lr=0.1, momentum=0.9, weight_decay=5e-4)
-    scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=50, gamma=0.1)
+    scheduler = torch.optim.lr_scheduler.MultiStepLR(optimizer, milestones=[100, 150], gamma=0.1)
 
     # Training
     best_acc = 0
