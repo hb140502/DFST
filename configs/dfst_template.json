@@ -1,0 +1,17 @@
+{
+    "seed": 1024,
+    "batch_size": 100,
+    "epochs": 200,
+    "attack": "dfst",
+    "target": 0,
+    "style_model_path": "magenta_arbitrary-image-stylization-v1-256_2",
+    "alpha": 0.6,
+    "detox_flag": true,
+    "detox_layers": [
+        "layer4"
+    ],
+    "detox_neuron_ratio": 0.01,
+    "detox_epochs": 10,
+    "w_ssim": 0.1,
+    "w_detox": 0.3
+}
