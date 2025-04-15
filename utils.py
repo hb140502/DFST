@@ -89,9 +89,13 @@ def get_transform(dataset, augment=False, tensor=False):
 # Get dataset
 def get_dataset(dataset, datadir='data', train=True, augment=True):
     transform = get_transform(dataset, augment=train & augment)
+    data_root=os.path.join(datadir, dataset)
+
+    if not os.path.exists(data_root):
+            os.makedirs(data_root)
     
     if dataset == 'cifar10':
-        dataset = datasets.CIFAR10(datadir, train, download=True, transform=transform)
+        dataset = datasets.CIFAR10(data_root, train, download=True, transform=transform)
 
     return dataset
 

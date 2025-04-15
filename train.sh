@@ -13,9 +13,9 @@ attack_id="${attack}_${model}_${dataset}_${pratio_label}"
 
 # Create json config based on attack settings
 mkdir -p $record_dir/$attack_id
-python create_config.py --dataset $dataset --network $model --poison_rate $pratio --save_dir $record_dir/$attack_id
+python create_config.py --dataset $dataset --network $model --epochs $n_epochs --poison_rate $pratio --save_dir $record_dir/$attack_id
 
-python main.py --attack dfst --save_dir $record_dir/$attack_id
+python main.py --attack dfst --save_dir $record_dir/$attack_id --data_dir $data_dir
 
 # cd $record_dir    
 # tar -cf "${attack_id}_${timestamp}.tar" $attack_id && rm -rf $attack_id

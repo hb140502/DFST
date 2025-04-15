@@ -5,6 +5,7 @@ import os
 parser = argparse.ArgumentParser()
 parser.add_argument('--dataset', type=str, required=True)
 parser.add_argument('--network', type=str, required=True)
+parser.add_argument('--epochs', type=int, required=True)
 parser.add_argument('--poison_rate', type=str, required=True)
 parser.add_argument('--save_dir', type=str, required=True)
 args = parser.parse_args()

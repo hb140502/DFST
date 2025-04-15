@@ -39,7 +39,7 @@ def eval_acc(model, loader, preprocess, DEVICE):
     return acc
 
 
-def train(config, save_folder, logger, DEVICE):
+def train(config, save_folder, data_folder, logger, DEVICE):
     # Set random seed
     seed_torch(config['seed'])
 
@@ -47,8 +47,8 @@ def train(config, save_folder, logger, DEVICE):
     model = get_model(config['dataset'], config['network']).to(DEVICE)
 
     # Load dataset
-    train_set = get_dataset(config['dataset'], train=True)
-    test_set  = get_dataset(config['dataset'], train=False)
+    train_set = get_dataset(config['dataset'], datadir=data_folder, train=True)
+    test_set  = get_dataset(config['dataset'], data_dir=data_folder, train=False)
 
     train_loader = DataLoader(train_set, batch_size=config['batch_size'], shuffle=True, num_workers=2)
     test_loader = DataLoader(test_set, batch_size=config['batch_size'], shuffle=False, num_workers=2)
@@ -94,7 +94,7 @@ def train(config, save_folder, logger, DEVICE):
         torch.save(model, save_path)
 
 
-def test(config, save_folder, DEVICE):
+def test(config, save_folder, data_folder, DEVICE):
     # Set random seed
     seed_torch(config['seed'])
 
@@ -104,7 +104,7 @@ def test(config, save_folder, DEVICE):
 
     preprocess, _ = get_norm(config['dataset'])
 
-    test_set = get_dataset(config['dataset'], train=False)
+    test_set = get_dataset(config['dataset'], datadir=data_folder, train=False)
     test_loader = DataLoader(dataset=test_set, num_workers=2, batch_size=config['batch_size'])
 
     acc = eval_acc(model, test_loader, preprocess, DEVICE)
@@ -124,7 +124,7 @@ def test(config, save_folder, DEVICE):
         print(f'Accuarcy: {acc*100:.2f}%, ASR: {asr*100:.2f}%')
 
 
-def poison(config, save_folder, logger, DEVICE):
+def poison(config, save_folder, data_folder, logger, DEVICE):
     # Set random seed
     seed_torch(config['seed'])
 
@@ -135,7 +135,7 @@ def poison(config, save_folder, logger, DEVICE):
     backdoor = get_backdoor(config, DEVICE)
 
     # Create poisoned dataset
-    attack = Attack(config, backdoor, save_folder)
+    attack = Attack(config, backdoor, save_folder, data_folder)
 
     # Load dataset
     train_loader  = DataLoader(dataset=attack.train_set,

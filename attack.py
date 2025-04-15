@@ -7,7 +7,7 @@ from utils import *
 
 # The Attack class is responsible for constructing the poisoned dataset
 class Attack:
-    def __init__(self, config, backdoor, save_folder):
+    def __init__(self, config, backdoor, save_folder, data_folder):
         # Extract the configuration parameters
         self.dataset = config['dataset']
         self.attack = config['attack']
@@ -27,8 +27,8 @@ class Attack:
             self.feat_genr = None
 
         # Initialize the dataset (without augmentation)
-        self.train_set = get_dataset(self.dataset, train=True, augment=False)
-        self.test_set = get_dataset(self.dataset, train=False, augment=False)
+        self.train_set = get_dataset(self.dataset, datadir=data_folder, train=True, augment=False)
+        self.test_set = get_dataset(self.dataset, datadir=data_folder, train=False, augment=False)
 
         # Augmentation
         shape = self.train_set[0][0].shape[-2:]
