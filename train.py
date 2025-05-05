@@ -48,7 +48,7 @@ def train(config, save_folder, data_folder, logger, DEVICE):
 
     # Load dataset
     train_set = get_dataset(config['dataset'], datadir=data_folder, train=True)
-    test_set  = get_dataset(config['dataset'], data_dir=data_folder, train=False)
+    test_set  = get_dataset(config['dataset'], datadir=data_folder, train=False)
 
     train_loader = DataLoader(train_set, batch_size=config['batch_size'], shuffle=True, num_workers=2)
     test_loader = DataLoader(test_set, batch_size=config['batch_size'], shuffle=False, num_workers=2)
@@ -99,7 +99,7 @@ def test(config, save_folder, data_folder, DEVICE):
     seed_torch(config['seed'])
 
     model_filepath = f'{save_folder}/model.pt'
-    model = torch.load(model_filepath, map_location='cpu').to(DEVICE)
+    model = torch.load(model_filepath, map_location='cpu', weights_only=False).to(DEVICE)
     model.eval()
 
     preprocess, _ = get_norm(config['dataset'])
