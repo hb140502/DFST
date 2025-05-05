@@ -51,9 +51,16 @@ class ArbitraryImageStylization:
     def __init__(self, model_path, device):
         self.model_path = model_path
 
+        # Create a logical device configuration with limited memory, and apply it to all GPUs so that Pytorch does not run out of memory
+        gpus = tf.config.list_physical_devices('GPU')
+        for gpu in gpus:
+            limit_memory_conf = tf.config.LogicalDeviceConfiguration(memory_limit=2*1024)
+            tf.config.set_logical_device_configuration(gpu, [limit_memory_conf])
+
         gpu_id = str(device).split(':')[-1]
         self.tf_device = f'/device:GPU:{gpu_id}'
         with tf.device(self.tf_device):
+            # Apply the logical device configuration to the first GPU
             self.hub_module = hub.load(model_path)
 
     def transfer_style(self, content_image, style_image):
