@@ -29,22 +29,30 @@ def seed_torch(seed):
 
 
 # Dataset configurations (mean, std, size, num_classes)
-_dataset_name = ['cifar10']
+_dataset_name = ['cifar10', 'cifar100', 'tiny']
 
 _mean = {
     'cifar10':  [0.4914, 0.4822, 0.4465],
+    'cifar100': [0.5071, 0.4865, 0.4409],
+    'tiny':     [0.4802, 0.4481, 0.3975]
 }
 
 _std = {
-    'cifar10':  [0.2023, 0.1994, 0.2010],
+    'cifar10':  [0.247, 0.243, 0.261],
+    'cifar100': [0.2673, 0.2564, 0.2762],
+    'tiny':     [0.2302, 0.2265, 0.2262]
 }
 
 _size = {
     'cifar10':  (32, 32),
+    'cifar100': (32, 32),
+    'tiny':     (64, 64),
 }
 
 _num = {
     'cifar10':  10,
+    'cifar100': 100,
+    'tiny':     200,
 }
 
 
@@ -72,9 +80,11 @@ def get_transform(dataset, augment=False, tensor=False):
     if augment:
         transforms_list.append(transforms.Resize(_size[dataset]))
         transforms_list.append(transforms.RandomCrop(_size[dataset], padding=4))
+        transforms_list.append(transforms.RandomRotation(10))
 
-        # Horizontal Flip
-        transforms_list.append(transforms.RandomHorizontalFlip())
+        # Horizontal Flip for CIFAR10
+        if dataset == 'cifar10':
+            transforms_list.append(transforms.RandomHorizontalFlip())
     else:
         transforms_list.append(transforms.Resize(_size[dataset]))
 
@@ -96,6 +106,11 @@ def get_dataset(dataset, datadir='data', train=True, augment=True):
     
     if dataset == 'cifar10':
         dataset = datasets.CIFAR10(data_root, train, download=True, transform=transform)
+    elif dataset == 'cifar100':
+        dataset = datasets.CIFAR100(data_root, train, download=True, transform=transform)
+    elif dataset == 'tiny':
+        from Tiny import TinyImageNet
+        dataset = TinyImageNet(data_root, 'train' if train else 'val', download=True, transform=transform)
 
     return dataset
 
