@@ -3,9 +3,9 @@
 #SBATCH -p csedu-prio,csedu
 #SBATCH --qos=csedu-small
 #SBATCH -c 2
-#SBATCH --mem 3G
+#SBATCH --mem 4G
 #SBATCH --gres=gpu:rtx_2080_ti:1 
-#SBATCH --time=3:00:00
+#SBATCH --time=4:00:00
 
 . ./input_validation.sh
 input_validation $@
