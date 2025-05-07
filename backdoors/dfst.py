@@ -54,7 +54,7 @@ class ArbitraryImageStylization:
         # Create a logical device configuration with limited memory, and apply it to all GPUs so that Pytorch does not run out of memory
         gpus = tf.config.list_physical_devices('GPU')
         for gpu in gpus:
-            limit_memory_conf = tf.config.LogicalDeviceConfiguration(memory_limit=2*1024)
+            limit_memory_conf = tf.config.LogicalDeviceConfiguration(memory_limit=6*1024)
             tf.config.set_logical_device_configuration(gpu, [limit_memory_conf])
 
         gpu_id = str(device).split(':')[-1]
