@@ -159,9 +159,11 @@ def poison(config, save_folder, data_folder, logger, DEVICE):
     best_asr = 0
     time_start = time.time()
     for epoch in range(config['epochs']):
+        total_bd = 0
         model.train()
         for step, (x_batch, y_batch) in enumerate(train_loader):
-            x_batch, y_batch = attack.inject(x_batch, y_batch)
+            x_batch, y_batch, num_bd = attack.inject(x_batch, y_batch)
+            total_bd += num_bd
 
             optimizer.zero_grad()
 
@@ -187,7 +189,7 @@ def poison(config, save_folder, data_folder, logger, DEVICE):
         asr = eval_acc(model, poison_loader, preprocess, DEVICE)
 
         # Log the training process
-        logger.info(f'epoch {epoch} - {time_end-time_start:.2f}s, acc: {acc:.4f}, asr: {asr:.4f}')
+        logger.info(f'epoch {epoch} - {time_end-time_start:.2f}s, acc: {acc:.4f}, asr: {asr:.4f}, pratio: {total_bd}/{len(attack.train_set)}')
         time_start = time.time()
 
         # Save the model if the performance is better

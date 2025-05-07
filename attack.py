@@ -82,11 +82,13 @@ class Attack:
     # Mix the poisoned data into the training set
     def inject(self, inputs, labels):
         # Number of poisoned samples within the batch
-        num_bd = int(inputs.size(0) * self.poison_rate)
+        num_bd = int(generalize_to_lower_pratio(self.poison_rate, inputs.size(0)))
 
         # If the batch size is too small, we may not have any poisoned samples
         if num_bd == 0:
-            return self.augment(inputs), labels
+            inputs = inputs.to(self.device)
+            labels = labels.to(self.device)
+            return self.augment(inputs), labels, num_bd
 
         # Randomly sample num_bd samples from the poisoned dataset
         indices = torch.randperm(self.poison_x_train.size(0))[:num_bd]
@@ -95,7 +97,7 @@ class Attack:
 
         if self.attack == 'dfst':
             # Number of detox samples within the batch
-            num_dx = int(inputs.size(0) * self.poison_rate)
+            num_dx = int(generalize_to_lower_pratio(self.poison_rate, inputs.size(0)))
 
             # Take the detox samples from the poisoned dataset
             inputs_dx = inputs[num_bd:num_bd + num_dx].to(self.device)
@@ -126,4 +128,4 @@ class Attack:
         # Augment the batch
         inputs = self.augment(inputs)
 
-        return inputs, labels
+        return inputs, labels, num_bd

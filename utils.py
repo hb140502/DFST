@@ -145,6 +145,18 @@ def get_backdoor(config, device):
 
     return backdoor
 
+# Taken from BackdoorBench WaNet implementation, allows poisoning with smaller poison rates (average <1 poisoned sample per batch)
+def generalize_to_lower_pratio(pratio, bs):
+    if pratio * bs >= 1:
+        # the normal case that each batch can have at least one poison sample
+        return pratio * bs
+    else:
+        # then randomly return number of poison sample
+        if np.random.uniform(0,
+                            1) < pratio * bs:  # eg. pratio = 1/1280, then 1/10 of batch(bs=128) should contains one sample
+            return 1
+        else:
+            return 0
 
 # Construct a customized dataset
 class CustomDataset(Dataset):
