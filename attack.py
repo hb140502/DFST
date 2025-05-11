@@ -32,7 +32,7 @@ class Attack:
 
         # Augmentation
         shape = self.train_set[0][0].shape[-2:]
-        self.augment = PostTensorTransform(shape)
+        self.augment = PostTensorTransform(shape, config["dataset"])
 
         # Construct the poisoned dataset and save in the save_folder
         # Poisoned data are current saved in .pt format for faster loading

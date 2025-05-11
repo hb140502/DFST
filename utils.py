@@ -189,11 +189,12 @@ class ProbTransform(nn.Module):
 
 
 class PostTensorTransform(nn.Module):
-    def __init__(self, shape):
+    def __init__(self, shape, dataset):
         super(PostTensorTransform, self).__init__()
-        self.random_crop = ProbTransform(A.RandomCrop(shape, padding=4), p=0.8)
-        self.random_rotation = ProbTransform(A.RandomRotation(10), p=0.5)
-        self.random_horizontal_flip = A.RandomHorizontalFlip(p=0.5)
+        self.random_crop = A.RandomCrop(shape, padding=4)
+        self.random_rotation = A.RandomRotation(10)
+        if dataset == "cifar10":
+            self.random_horizontal_flip = A.RandomHorizontalFlip(p=0.5)
 
     def forward(self, x):
         for module in self.children():
