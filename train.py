@@ -98,8 +98,10 @@ def test(config, save_folder, data_folder, DEVICE):
     # Set random seed
     seed_torch(config['seed'])
 
+    model = get_model(config['dataset'], config['network']).to(DEVICE)
     model_filepath = f'{save_folder}/model.pt'
-    model = torch.load(model_filepath, map_location='cpu', weights_only=False).to(DEVICE)
+    state_dict = torch.load(model_filepath, map_location=DEVICE)
+    model.load_state_dict(state_dict)
     model.eval()
 
     preprocess, _ = get_norm(config['dataset'])
@@ -197,7 +199,7 @@ def poison(config, save_folder, data_folder, logger, DEVICE):
             best_acc = acc
             best_asr = asr
             logger.info(f'---BEST ACC: {best_acc:.4f}, ASR: {best_asr:.4f}---')
-            torch.save(model, f'{save_folder}/model.pt')
+            torch.save(model.state_dict(), f'{save_folder}/model.pt')
         
         ######################################################
         # (DFST) Apply detoxification in the middle of training
