@@ -17,5 +17,5 @@ python create_config.py --dataset $dataset --network $model --epochs $n_epochs -
 
 python main.py --attack dfst --save_dir $record_dir/$attack_id --data_dir $data_dir
 
-cd $record_dir
-tar -cf "${attack_id}_${timestamp}.tar" $attack_id && rm -rf $attack_id
+cd $record_dir    
+tar -cf "${attack_id}_${timestamp}.tar" $attack_id
