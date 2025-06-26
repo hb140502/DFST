@@ -27,5 +27,8 @@ python create_config.py --dataset $dataset --network $model --epochs $n_epochs -
 
 python main.py --attack dfst --save_dir $record_dir/$attack_id --data_dir $data_dir
 
+# DFST saves poisoned version of every non-target train sample, we reduce it to a subset according to our poisoning rate
+python make_poisoned_trainset.py --save_dir $record_dir/$attack_id --poison_rate $pratio --dataset $dataset
+
 cd $record_dir    
 tar -cf "${attack_id}_${timestamp}.tar" $attack_id
