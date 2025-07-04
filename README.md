@@ -12,9 +12,10 @@
 
 Table of Contents
 =================
+- [Deep Feature Space Trojan Attack of Neural Networks by Controlled Detoxification](#deep-feature-space-trojan-attack-of-neural-networks-by-controlled-detoxification)
 - [Table of Contents](#table-of-contents)
   - [Overview](#overview)
-  - [Code Architecutre](#code-architecture)
+  - [Code Architecture](#code-architecture)
   - [Environments](#environments)
   - [Requirement](#requirement)
   - [Experiments](#experiments)
@@ -50,10 +51,9 @@ Table of Contents
     └── utils.py              # Utility functions
 
 ## Environments
+**Note**: I could not successfully install the environment specified by the original authors in `environment.yml`. I managed to get the code working in Python 3.9.21 by installing the packages listed in [requirements.txt](requirements.txt):
 ```bash
-# Create python environment (optional)
-conda env create -f environment.yml
-source activate dfst
+pip install -r requirements.txt
 ```
 
 ## Requirement
