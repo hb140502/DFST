@@ -1,6 +1,5 @@
 {
     "seed": 1024,
-    "batch_size": 100,
     "attack": "dfst",
     "target": 0,
     "style_model_path": "magenta_arbitrary-image-stylization-v1-256_2",

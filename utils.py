@@ -29,30 +29,30 @@ def seed_torch(seed):
 
 
 # Dataset configurations (mean, std, size, num_classes)
-_dataset_name = ['cifar10', 'cifar100', 'tiny']
+_dataset_name = ['cifar10', 'cifar100', 'imagenette']
 
 _mean = {
-    'cifar10':  [0.4914, 0.4822, 0.4465],
-    'cifar100': [0.5071, 0.4865, 0.4409],
-    'tiny':     [0.4802, 0.4481, 0.3975]
+    'cifar10':    [0.4914, 0.4822, 0.4465],
+    'cifar100':   [0.5071, 0.4865, 0.4409],
+    'imagenette': [0.4671, 0.4593, 0.4306]
 }
 
 _std = {
-    'cifar10':  [0.247, 0.243, 0.261],
-    'cifar100': [0.2673, 0.2564, 0.2762],
-    'tiny':     [0.2302, 0.2265, 0.2262]
+    'cifar10':    [0.247, 0.243, 0.261],
+    'cifar100':   [0.2673, 0.2564, 0.2762],
+    'imagenette': [0.2692, 0.2657, 0.2884]
 }
 
 _size = {
-    'cifar10':  (32, 32),
-    'cifar100': (32, 32),
-    'tiny':     (64, 64),
+    'cifar10':    (32, 32),
+    'cifar100':   (32, 32),
+    'imagenette': (80, 80),
 }
 
 _num = {
-    'cifar10':  10,
-    'cifar100': 100,
-    'tiny':     200,
+    'cifar10':    10,
+    'cifar100':   100,
+    'imagenette': 10,
 }
 
 
@@ -108,9 +108,9 @@ def get_dataset(dataset, datadir='data', train=True, augment=True):
         dataset = datasets.CIFAR10(data_root, train, download=True, transform=transform)
     elif dataset == 'cifar100':
         dataset = datasets.CIFAR100(data_root, train, download=True, transform=transform)
-    elif dataset == 'tiny':
-        from Tiny import TinyImageNet
-        dataset = TinyImageNet(data_root, 'train' if train else 'val', download=True, transform=transform)
+    elif dataset == 'imagenette':
+        split = "train" if train else "val"
+        dataset = datasets.ImageFolder(os.path.join(data_root, split), transform=transform)
 
     return dataset
 

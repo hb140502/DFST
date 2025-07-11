@@ -2,7 +2,7 @@
 #SBATCH -A cseduproject
 #SBATCH -p csedu-prio,csedu
 #SBATCH --qos=csedu-small
-#SBATCH -c 1
+#SBATCH --cpus-per-task=2
 #SBATCH --mem 3G
 #SBATCH --gres=gpu:rtx_2080_ti:1 
 #SBATCH --time=4:00:00

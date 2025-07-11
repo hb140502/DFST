@@ -9,10 +9,10 @@ parser.add_argument('--poison_rate', type=float, required=True)
 parser.add_argument('--dataset', type=str, required=True)
 args = parser.parse_args()
 
-# TODO: add third dataset
 N_TRAIN_SAMPLES_DICT = {
     "cifar10": 50000,
     "cifar100": 50000,
+    "imagenette": 9469
 }
 
 record = args.save_dir
