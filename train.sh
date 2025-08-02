@@ -3,16 +3,19 @@
 . ./input_validation.sh
 input_validation $@
 
-my_dir="/vol/csedu-nobackup/project/hberendsen"
+my_dir=""
+
+if [[ -z $my_dir ]]; then
+    echo "Please set the 'my_dir' variable to the parent directory of the data and record folders"
+    exit 1
+fi
+
 data_dir="$my_dir/data"
 record_dir="$my_dir/record"
 timestamp=$(date +"T%d-%m_%H-%M")
 
 pratio_label=$(echo p$pratio | tr . -)
 attack_id="${attack}_${model}_${dataset}_${pratio_label}"
-
-# pyenv activate tf2.14
-source /vol/csedu-nobackup/project/hberendsen/.pyenv/versions/tf2.14/bin/activate
 
 gpu=$(python get_gpu.py)
 
