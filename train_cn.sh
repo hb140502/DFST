@@ -10,8 +10,8 @@ if [[ -z $my_dir ]]; then
     exit 1
 fi
 
-data_dir="/home/xxu/back_stealthiness/record/data/tiny/tiny-imagenet-200/"
-record_dir="$my_dir/record"
+data_dir="/vol/aisy/xxu/data/"
+record_dir="$my_dir/record_cn114"
 timestamp=$(date +"T%d-%m_%H-%M")
 
 pratio_label=$(echo p$pratio | tr . -)

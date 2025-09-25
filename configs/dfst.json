@@ -7,7 +7,7 @@
     "attack": "dfst",
     "target": 0,
     "poison_rate": 0.05,
-    "style_model_path": "magenta_arbitrary-image-stylization-v1-256_2",
+    "style_model_path": "arbitrary-image-stylization-v1-tensorflow1-256-v2",
     "alpha": 0.6,
     "detox_flag": true,
     "detox_layers": [

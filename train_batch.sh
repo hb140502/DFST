@@ -11,3 +11,4 @@
 input_validation $@
 
 ./train.sh $attack $model $dataset $pratio $n_epochs
+# ./train.sh dfst resnet18 tiny 0.05 100

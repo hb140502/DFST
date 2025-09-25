@@ -14,7 +14,7 @@ from torchvision.utils import save_image
 
 from models import *
 from backdoors import *
-
+import timm
 
 # Set random seed
 def seed_torch(seed):
@@ -29,30 +29,34 @@ def seed_torch(seed):
 
 
 # Dataset configurations (mean, std, size, num_classes)
-_dataset_name = ['cifar10', 'cifar100', 'imagenette']
+_dataset_name = ['cifar10', 'cifar100', 'imagenette', 'tiny']
 
 _mean = {
     'cifar10':    [0.4914, 0.4822, 0.4465],
     'cifar100':   [0.5071, 0.4865, 0.4409],
-    'imagenette': [0.4671, 0.4593, 0.4306]
+    'imagenette': [0.4671, 0.4593, 0.4306],
+    'tiny': [0.4802, 0.4481, 0.3975]
 }
 
 _std = {
     'cifar10':    [0.247, 0.243, 0.261],
     'cifar100':   [0.2673, 0.2564, 0.2762],
-    'imagenette': [0.2692, 0.2657, 0.2884]
+    'imagenette': [0.2692, 0.2657, 0.2884],
+    'tiny': [0.2302, 0.2265, 0.2262]
 }
 
 _size = {
     'cifar10':    (32, 32),
     'cifar100':   (32, 32),
     'imagenette': (80, 80),
+    'tiny': (64,64),
 }
 
 _num = {
     'cifar10':    10,
     'cifar100':   100,
     'imagenette': 10,
+    'tiny': 200,
 }
 
 
@@ -99,7 +103,7 @@ def get_transform(dataset, augment=False, tensor=False):
 # Get dataset
 def get_dataset(dataset, datadir='data', train=True, augment=True):
     transform = get_transform(dataset, augment=train & augment)
-    data_root=os.path.join(datadir, dataset)
+    data_root=datadir
 
     if not os.path.exists(data_root):
             os.makedirs(data_root)
@@ -109,6 +113,9 @@ def get_dataset(dataset, datadir='data', train=True, augment=True):
     elif dataset == 'cifar100':
         dataset = datasets.CIFAR100(data_root, train, download=True, transform=transform)
     elif dataset == 'imagenette':
+        split = "train" if train else "val"
+        dataset = datasets.ImageFolder(os.path.join(data_root, split), transform=transform)
+    elif dataset == 'tiny':
         split = "train" if train else "val"
         dataset = datasets.ImageFolder(os.path.join(data_root, split), transform=transform)
 
@@ -127,6 +134,13 @@ def get_model(dataset, network):
         model = vgg11(num_classes=num_classes)
     elif network == 'vgg13':
         model = vgg13(num_classes=num_classes)
+    elif network == 'vgg16':
+        model = vgg16(num_classes=num_classes)
+    elif network == 'vit_small':
+        model = timm.create_model('vit_small_patch16_224', 
+        num_classes=num_classes, 
+        patch_size=4, 
+        img_size=32)
     else:
         raise NotImplementedError
 

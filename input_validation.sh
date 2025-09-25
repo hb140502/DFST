@@ -18,10 +18,10 @@ Usage: ${0} <ATTACK> <MODEL ARCHITECTURE> <DATASET> <POISON RATE> <NUMBER OF EPO
     attack_regex="^dfst$"
     validate_str $attack $attack_regex
 
-    model_regex="^resnet18|vgg16|densenet121$"
+    model_regex="^resnet18|vgg16|densenet121|vit_small$"
     validate_str $model $model_regex
 
-    dataset_regex="^cifar10|cifar100|imagenette$"
+    dataset_regex="^cifar10|cifar100|imagenette|tiny$"
     validate_str $dataset $dataset_regex
 
     pratio_regex="^0.003|0.05|0.1$"

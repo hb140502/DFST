@@ -11,6 +11,8 @@ parser.add_argument('--save_dir', type=str, required=True)
 args = parser.parse_args()
 
 args.batch_size = 20 if args.dataset == "imagenette" else 100
+if args.dataset=='tiny':
+    args.batch_size = 256
 
 with open(os.path.join("configs", "dfst_template.json")) as f:
     config_template = json.load(f)

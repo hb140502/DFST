@@ -12,7 +12,8 @@ args = parser.parse_args()
 N_TRAIN_SAMPLES_DICT = {
     "cifar10": 50000,
     "cifar100": 50000,
-    "imagenette": 9469
+    "imagenette": 9469,
+    "tiny": 100000,
 }
 
 record = args.save_dir
